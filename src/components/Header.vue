@@ -1,23 +1,62 @@
 <template>
-  <header class="h-18 flex items-center justify-between px-6 border-b border-[var(--border-tertiary)]">
-    <!-- Search Bar -->
-    <div class="flex-1 max-w-[300px]">
-      <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg class="size-token-lg text-[var(--text-tertiary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <input v-model="searchQuery" type="text" placeholder="Type a command or search..."
-          class="w-full h-10 pl-10 pr-3 py-2.5 text-sm-regular text-[var(--text-primary)] placeholder:text-[var(--text-placeholder)] bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] focus:border-transparent transition-all" />
+  <header class="h-auto md:h-18 flex flex-row items-center justify-between px-4 md:px-6 py-3 md:py-0 gap-3 border-b border-[var(--border-tertiary)]">
+    <!-- Left: Menu button (mobile only) + Search Bar (desktop only) -->
+    <div class="flex items-center gap-3 flex-1">
+      <!-- Mobile Menu Button - shown on mobile, hidden on desktop -->
+      <button
+        @click="toggleMobileSidebar"
+        class="lg:hidden p-2 hover:bg-[var(--bg-secondary-hover)] rounded-lg transition-colors"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <!-- Search Bar - hidden on mobile, shown on desktop -->
+      <div class="hidden md:block w-full md:flex-1 md:max-w-md">
+        <InputField 
+          v-model="searchQuery" 
+          :icon="Search"
+          placeholder="Type a command or search..."
+          textColor="var(--text-primary)"
+          container-class="w-full"
+        />
       </div>
     </div>
 
-    <!-- Right Actions -->
-    <div class="flex items-center gap-1.5 ml-6">
-      <!-- Message and Notifications -->
-      <div class="flex items-center gap-1.5 h-10 bg-[var(--bg-secondary-subtle)] rounded-token-md px-1.5 py-1">
+    <!-- Right: Dark Mode Toggle -->
+    <div class="flex items-center gap-2">
+      <!-- Dark Mode Toggle - always visible -->
+      <button
+        @click="toggleDarkMode"
+        class="w-10 h-10 px-1.5 py-1 rounded-token-md hover:bg-[var(--bg-secondary-hover)] transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]"
+        :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+      >
+        <!-- Sun Icon (Light Mode) -->
+        <svg v-if="isDark" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 1V3M10 17V19M19 10H17M3 10H1M16.364 16.364L14.95 14.95M14.95 5.05L16.364 3.636M3.636 16.364L5.05 14.95M5.05 5.05L3.636 3.636M14 10C14 12.2091 12.2091 14 10 14C7.79086 14 6 12.2091 6 10C6 7.79086 7.79086 6 10 6C12.2091 6 14 7.79086 14 10Z" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            class="text-[var(--text-secondary)]"
+          />
+        </svg>
+        <!-- Moon Icon (Dark Mode) -->
+        <svg v-else width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 10.79C18.8427 12.4922 18.2039 14.1144 17.1582 15.4668C16.1126 16.8192 14.7035 17.8458 13.0957 18.4265C11.4879 19.0073 9.74801 19.1181 8.07951 18.7461C6.41101 18.3741 4.88299 17.5345 3.67425 16.3258C2.46552 15.117 1.62596 13.589 1.25393 11.9205C0.881908 10.252 0.992719 8.51208 1.57348 6.9043C2.15425 5.29651 3.18085 3.88737 4.53324 2.84175C5.88562 1.79614 7.50782 1.15731 9.20999 1C8.21341 2.34827 7.73385 4.00945 7.85852 5.68141C7.98319 7.35338 8.70391 8.92506 9.89005 10.1112C11.0762 11.2973 12.6479 12.0181 14.3198 12.1427C15.9918 12.2674 17.653 11.7879 19.0013 10.7913L19 10.79Z" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            class="text-[var(--text-secondary)]"
+          />
+        </svg>
+      </button>
+
+      <!-- Message and Notifications - Hidden on mobile, shown on desktop -->
+      <div class="hidden md:flex items-center gap-1.5 h-10 bg-[var(--bg-secondary-subtle)] rounded-token-md px-1.5 py-1">
         <!-- Message Icon -->
         <button
           class="w-10 h-10 px-1.5 py-1 rounded-token-md hover:bg-[var(--bg-secondary-hover)] transition-colors flex items-center justify-center">
@@ -40,17 +79,15 @@
         </button>
       </div>
 
-      <!-- User Avatar -->
-      <div class="relative">
+      <!-- User Avatar - Hidden on mobile, shown on desktop -->
+      <div class="relative hidden md:block">
         <button @click="toggleUserMenu"
           class="flex items-center gap-1.5 h-10 bg-[var(--bg-secondary-subtle)] rounded-token-md px-1.5 py-1 hover:bg-[var(--bg-secondary-hover)] transition-all focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]">
           <img src="../assets/image/user.svg" alt="User Avatar" class="w-8 h-8 object-cover" />
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 6L8 10L12 6" stroke="#94A3B8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-
         </button>
-
 
         <!-- User Dropdown Menu -->
         <transition enter-active-class="transition ease-out duration-100"
@@ -81,9 +118,21 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useDarkMode } from '@/composables/useDarkMode'
+import InputField from './Shared/InputField.vue'
+import { Search } from 'lucide-vue-next'
+
+const { isDark, toggleDarkMode } = useDarkMode()
 
 const searchQuery = ref('')
 const isUserMenuOpen = ref(false)
+
+// Emit event for mobile sidebar toggle
+const emit = defineEmits(['toggle-sidebar'])
+
+const toggleMobileSidebar = () => {
+  emit('toggle-sidebar')
+}
 
 const toggleUserMenu = () => {
   isUserMenuOpen.value = !isUserMenuOpen.value
@@ -103,3 +152,4 @@ onUnmounted(() => {
   document.removeEventListener('click', closeUserMenu)
 })
 </script>
+      

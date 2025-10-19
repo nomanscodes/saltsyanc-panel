@@ -1,5 +1,5 @@
 <template>
-  <aside class="w-[240px] h-screen  position-relative">
+  <aside class="w-[240px] h-screen bg-[var(--bg-primary)] md:bg-[var(--bg)] border-r md:border-0  border-[var(--border-primary)] relative overflow-hidden">
 
     <!-- gradient  -->
     <svg class="absolute" width="240" height="470" viewBox="0 0 240 470" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,20 +22,26 @@
     </svg>
 
 
-    <div class="relative">
+    <div class="relative flex flex-col h-full">
       <!-- Logo Section -->
       <div class="p-6">
         <div class="flex items-center justify-between">
           <img src="@/assets/image/logo.svg" alt="SaltSync Internet Logo" class="h-12 w-[139px] object-contain" />
 
-          <button class="p-1 hover:bg-gray-800 rounded-token-md transition-colors">
-            <PanelRightOpen :size="24" class="text-[var(--icon-fg-gray)]" />
+          <button 
+            @click="$emit('close')"
+            class="p-1 hover:bg-[var(--bg-secondary-hover)] rounded-token-md transition-colors lg:hidden"
+            aria-label="Close menu"
+          >
+            <svg class="w-6 h-6 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
       </div>
 
       <!-- Navigation Menu -->
-      <nav class="flex-1 overflow-y-auto py-4">
+      <nav class="flex-1 overflow-y-auto py-4 scrollbar-thin">
         <!-- Dynamic Navigation Groups -->
         <div
           v-for="(group, groupIndex) in navigationGroups"
@@ -49,6 +55,7 @@
             <li v-for="item in group.items" :key="item.path">
               <router-link
                 :to="item.path"
+                @click="$emit('close')"
                 :class="[
                   'flex items-center rounded-token-xl text-md-medium text-[var(--text-primary)] hover:bg-[var(--bg-secondary-hover)] transition-colors',
                   'py-[var(--spacing-xs)] px-[var(--spacing-md)]',
@@ -79,15 +86,15 @@
           <p class="text-sm-semibold text-white mb-1">Enterprise</p>
           <p class="text-xs-regular text-gray-400 mb-3">Last login on May 1, 2025</p>
           <div class="flex items-center gap-2 bg-gray-800 rounded-token-md p-1">
-            <button @click="toggleTheme('light')" :class="[
+            <button @click="toggleDarkMode" :class="[
               'flex-1 px-2 py-1 rounded-token-sm text-xs-medium transition-colors',
-              theme === 'light' ? 'bg-white text-gray-900' : 'text-gray-400 hover:text-white'
+              !isDark ? 'bg-white text-gray-900' : 'text-gray-400 hover:text-white'
             ]">
               Light
             </button>
-            <button @click="toggleTheme('dark')" :class="[
+            <button @click="toggleDarkMode" :class="[
               'flex-1 px-2 py-1 rounded-token-sm text-xs-medium transition-colors',
-              theme === 'dark' ? 'bg-white text-gray-900' : 'text-gray-400 hover:text-white'
+              isDark ? 'bg-white text-gray-900' : 'text-gray-400 hover:text-white'
             ]">
               Dark
             </button>
@@ -100,26 +107,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { PanelRightOpen } from 'lucide-vue-next'
+import { useDarkMode } from '@/composables/useDarkMode'
 import { navigationGroups } from '@/config/navigation'
 
-const theme = ref('light')
+defineEmits(['close'])
 
-const toggleTheme = (newTheme) => {
-  theme.value = newTheme
-  if (newTheme === 'dark') {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
-  localStorage.setItem('theme', newTheme)
-}
-
-onMounted(() => {
-  const savedTheme = localStorage.getItem('theme') || 'light'
-  theme.value = savedTheme
-  if (savedTheme === 'dark') {
-    document.documentElement.classList.add('dark')
-  }
-})
+const { isDark, toggleDarkMode } = useDarkMode()
 </script>

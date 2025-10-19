@@ -1,11 +1,14 @@
 <template>
-  <div class="">
+  <div class="flex flex-col gap-6">
     <!-- Top Section Card - Contains CopyReferralLink and PointsBalanceCard -->
-    <div class="">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Copy Referral Link Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Copy Referral Link Section -->
+      <div class="lg:col-span-5">
         <CopyReferralLink />
-        <!-- Points Balance Card Section -->
+      </div>
+
+      <!-- Points Balance Card Section -->
+      <div class="lg:col-span-7">
         <PointsBalanceCard />
       </div>
     </div>
