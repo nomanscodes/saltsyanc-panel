@@ -1,0 +1,41 @@
+Frontend Task — Referral Module (Vue 3 + Pinia + Tailwind)
+Goal: Build the Referral page (user only). Must support Dark Mode and Mobile/Desktop. No
+real API — use Pinia + mock service but keep it API-ready.
+Scope
+Route: /referrals
+Sections:
+• CopyReferralLink (code + full URL + copy feedback)
+• PointsBalanceCard (current + lifetime points)
+• ReferralHistoryTable (search, status filter, pagination, loading/empty/error)
+• Add Referral via GlobalDrawer → ReferralForm (name, email, optional phone)
+Tech
+Vue 3, Pinia, Vue Router, Tailwind (dark class), Vite
+TypeScript preferred; no UI libs (icons OK)
+State & Mock
+Pinia stores: referral.store, points.store
+Mock service (api.service.ts) with 300–800ms latency:
+• getMyProfile, getMyHistory, postManual, getPoints
+Rules in mock: duplicate email → 409; new referral starts as pending
+Seed 15–25 items (mixed statuses, realistic dates)
+Components
+GlobalDrawer.vue (reusable: v-model, title, size, side, header/footer slots)
+CopyReferralLink.vue (tooltip/toast “Copied!”)
+ReferralForm.vue (HTML5 validation; normalize +880; success resets + closes drawer)
+ReferralHistoryTable.vue (mobile cards, desktop table with sticky header)
+PointsBalanceCard.vue (plus small static indicator)
+Dark Mode & UX
+Toggle in header; persist to localStorage; toggle html.dark
+
+Accessible focus states, labeled inputs, drawer focus-trap, ESC/backdrop close
+Acceptance
+Copy works with visible feedback
+Manual submit validates + blocks duplicate email
+List supports search, filter, pagination with loading/empty/error
+Pixel-clean spacing/typography per Figma; full dark mode parity
+No console errors; clean component structure; API-ready (service abstraction)
+Submission
+Submission Deadline: 20-10-2025 (Asia/Dhaka) by 23:59.
+Repository: Public GitHub repo is REQUIRED (no private links). Include clear commit
+history.
+Live Preview: Vercel/Netlify preferred, or provide `vite preview` steps in README.
+README must include: run steps, toggle mock error/latency, how to swap to real API.
