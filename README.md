@@ -5,6 +5,7 @@ A modern, fully-featured referral management system built with Vue 3, Pinia, and
 ## 🚀 Features
 
 ### Core Functionality
+
 - **Referral Link Management**: Copy and share referral links with integrated QR code
 - **Points System**: Track current and lifetime points with detailed breakdown
 - **Referral History**: Advanced table with search, filtering, and pagination
@@ -13,6 +14,7 @@ A modern, fully-featured referral management system built with Vue 3, Pinia, and
 - **Responsive Design**: Fully optimized for mobile, tablet, and desktop
 
 ### Key Components
+
 - **GlobalDrawer**: Reusable drawer component with focus-trap and keyboard navigation
 - **ReferralForm**: Multi-field form with district/upazilla dependency and validation
 - **CopyReferralLink**: Share referral links via social media or QR code
@@ -37,27 +39,32 @@ A modern, fully-featured referral management system built with Vue 3, Pinia, and
 ## 🔧 Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone <repository-url>
 cd test
 ```
 
 2. **Install dependencies**
+
 ```bash
 pnpm install
 ```
 
 3. **Start development server**
+
 ```bash
 pnpm dev
 ```
 
 4. **Build for production**
+
 ```bash
 pnpm build
 ```
 
 5. **Preview production build**
+
 ```bash
 pnpm preview
 ```
@@ -96,7 +103,9 @@ pnpm preview
 ## 🎨 Design System
 
 ### Color System
+
 The application uses CSS custom properties for theming:
+
 - `--bg-primary`: Primary background
 - `--text-primary`: Primary text
 - `--border-primary`: Primary borders
@@ -104,12 +113,15 @@ The application uses CSS custom properties for theming:
 - And many more...
 
 ### Responsive Breakpoints
+
 - Mobile: `< 640px`
 - Tablet: `640px - 1024px`
 - Desktop: `> 1024px`
 
 ### Component Props
+
 All reusable components accept customizable props:
+
 - **Button**: text, icon, size, colors, padding
 - **InputField**: type, placeholder, colors, disabled
 - **GlobalDrawer**: title, size, side, slots
@@ -117,6 +129,7 @@ All reusable components accept customizable props:
 ## 🔑 Key Features Detail
 
 ### 1. Referral Form
+
 - **7 Fields**: Name, Phone, Email, District, Upazilla, Address, Package
 - **Validation**: HTML5 + custom validation
 - **Phone Normalization**: Auto-formats to +880 Bangladesh format
@@ -124,6 +137,7 @@ All reusable components accept customizable props:
 - **Error Handling**: Field-level and form-level error messages
 
 ### 2. Dark Mode
+
 - Toggle button in header
 - Persists to localStorage
 - Respects system preference
@@ -131,6 +145,7 @@ All reusable components accept customizable props:
 - All components support dark mode
 
 ### 3. Responsive Layout
+
 - Mobile hamburger menu
 - Collapsible sidebar
 - Adaptive spacing and font sizes
@@ -138,35 +153,38 @@ All reusable components accept customizable props:
 - Stack to column layout on small screens
 
 ### 4. State Management (Pinia)
+
 ```javascript
 // Referral Store
-- userProfile
-- referrals
-- searchQuery
-- statusFilter
-- pagination
-- createReferral()
-- fetchReferrals()
-
-// Points Store
-- currentPoints
-- lifetimePoints
-- pointsBreakdown
-- fetchPoints()
+-userProfile -
+  referrals -
+  searchQuery -
+  statusFilter -
+  pagination -
+  createReferral() -
+  fetchReferrals() -
+  // Points Store
+  currentPoints -
+  lifetimePoints -
+  pointsBreakdown -
+  fetchPoints();
 ```
 
 ## 🔐 Form Validation
 
 ### Phone Number
+
 - Accepts formats: `01XXXXXXXXX`, `+8801XXXXXXXXX`, `8801XXXXXXXXX`
 - Auto-normalizes to: `+880XXXXXXXXX`
 - Validates Bangladesh mobile numbers (starts with 013-019)
 
 ### Email
+
 - Standard email validation
 - Duplicate detection (409 error)
 
 ### Required Fields
+
 All fields except phone are required with visual indicators
 
 ## 📱 Mobile Optimization
@@ -182,6 +200,7 @@ All fields except phone are required with visual indicators
 ## 🎯 Usage Examples
 
 ### Adding a Referral
+
 1. Click "Request for New Connection"
 2. Fill in all required fields
 3. Select district (upazilla auto-populates)
@@ -189,12 +208,14 @@ All fields except phone are required with visual indicators
 5. Success message and auto-close drawer
 
 ### Searching Referrals
+
 1. Type in search box (debounced 300ms)
 2. Filter by status dropdown
 3. Results update automatically
 4. Paginate through results
 
 ### Copying Referral Link
+
 1. Click "Copy" button
 2. Toast notification appears
 3. Link copied to clipboard
@@ -203,6 +224,7 @@ All fields except phone are required with visual indicators
 ## 🧪 Mock API
 
 The application includes a mock API service with:
+
 - 300-800ms latency simulation
 - Realistic error responses
 - 15-25 seeded referral items
@@ -212,7 +234,9 @@ The application includes a mock API service with:
 ## 🎨 Customization
 
 ### Changing Theme Colors
+
 Edit CSS custom properties in your global styles:
+
 ```css
 :root {
   --bg-brand-solid: #your-color;
@@ -221,6 +245,7 @@ Edit CSS custom properties in your global styles:
 ```
 
 ### Adding New Routes
+
 ```javascript
 // router/index.js
 {
@@ -230,7 +255,9 @@ Edit CSS custom properties in your global styles:
 ```
 
 ### Creating Reusable Components
+
 Follow the pattern in `src/components/Shared/`:
+
 - Accept customizable props
 - Use CSS variables for theming
 - Support dark mode
@@ -239,31 +266,22 @@ Follow the pattern in `src/components/Shared/`:
 ## 🐛 Troubleshooting
 
 ### Dark mode not persisting
+
 - Check localStorage is enabled
 - Clear browser cache
 - Check console for errors
 
 ### Form not submitting
+
 - Check browser console for validation errors
 - Ensure all required fields are filled
 - Verify phone number format
 
 ### Table not loading
+
 - Check Pinia store state
 - Verify API service is imported
 - Check browser network tab
-
-## 📄 License
-
-This project is private and proprietary.
-
-## 👥 Contributing
-
-This is a private project. Contributions are managed internally.
-
-## 📞 Support
-
-For issues or questions, please contact the development team.
 
 ---
 
